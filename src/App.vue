@@ -1,28 +1,56 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Shopping List</h1>
+    <ShoppingListItemForm @addItem="addItem"/>
+    <ShoppingList :shoppingList="shoppingList"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ShoppingListItemForm from '@/components/ShoppingListItemForm.vue'
+import ShoppingList from '@/components/ShoppingList.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    ShoppingListItemForm,
+    ShoppingList
+  },
+  data() {
+    return {
+      shoppingList: [],
+    }
+  },
+  mounted() {
+    console.log('App mounted!')
+  },
+  methods: {
+    addItem(item) {
+      this.shoppingList.push({
+        ...item,
+        id: this.shoppingList.length + 1,
+      })
+      console.log('Item added!')
+      return true
+    },
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+*, ::before, ::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'Corbert Wide';
+  src: url('./assets/CorbertWide-Regular.ttf');
+}
+
+:root {
+  font-size: 16px;
+  font-family: 'Corbert Wide', Verdana, Geneva, sans-serif;
 }
 </style>
