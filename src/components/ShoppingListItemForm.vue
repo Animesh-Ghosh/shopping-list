@@ -40,7 +40,7 @@
         Add Item
       </button>
     </fieldset>
-    <ul>
+    <ul v-if="formErrors.length">
       <li
       v-for="error of formErrors"
       :key="error.id"
@@ -128,6 +128,16 @@ form > fieldset {
   grid-template-columns: max-content 1fr;
 }
 
+@media only screen and (max-width: 600px) {
+  form {
+    padding: 1rem 0;
+  }
+
+  form > fieldset {
+    grid-template-columns: 1fr;
+  }
+}
+
 form > fieldset > div {
   display: flex;
   align-content: flex-start;
@@ -140,6 +150,12 @@ form > fieldset > div {
 
 button[type="submit"] {
   grid-area: 5/-2/5/-1;
+}
+
+@media only screen and (max-width: 600px) {
+  button[type="submit"] {
+    grid-area: 8/1/8/-1;
+  }
 }
 
 form > ul {

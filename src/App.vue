@@ -2,7 +2,9 @@
   <div id="app">
     <h1>Shopping List</h1>
     <ShoppingListItemForm @addItem="addItem"/>
-    <ShoppingList :shoppingList="shoppingList"/>
+    <ShoppingList
+    :shoppingList="shoppingList"
+    @removeItem="removeItem"/>
   </div>
 </template>
 
@@ -29,10 +31,20 @@ export default {
       this.shoppingList.push({
         ...item,
         id: this.shoppingList.length + 1,
+        bought: false
       })
       console.log('Item added!')
       return true
     },
+    removeItem(id) {
+      const response = window.confirm('Delete item?')
+      if(response) {
+        const idx = this.shoppingList.findIndex(item => item.id == id)
+        this.shoppingList.splice(idx, 1)
+        console.log('Item removed!')
+      }
+      return response
+    }
   },
 }
 </script>
