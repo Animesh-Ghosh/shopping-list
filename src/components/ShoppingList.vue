@@ -1,14 +1,15 @@
 <template>
   <p v-if="!shoppingList.length">No items in shopping list!</p>
   <ol v-else>
-    <li
-    v-for="item in shoppingList"
+    <li v-for="item in shoppingList"
     :key="item.id"
     @click="markAsBought(item)">
-      <p>
-        {{ item.count }}{{ item.unit }} {{ item | pluralize }} - {{ item.bought ? 'bought!' : 'need to buy...' }}
-      </p>
-      <button @click.stop="$emit('removeItem', item.id)">Delete</button>
+      <div class="shopping-item">
+        <p>
+          {{ item.count }}{{ item.unit }} {{ item | pluralize }} - {{ item.bought ? 'bought!' : 'need to buy...' }}
+        </p>
+        <button @click.stop="$emit('removeItem', item.id)">Delete</button>
+      </div>
     </li>
   </ol>
 </template>
@@ -25,6 +26,10 @@ export default {
   methods: {
     markAsBought(item) {
       item.bought = !item.bought
+      const message = item.bought
+        ? `${item.name} marked as bought!`
+        : `Need to buy ${item.name}...`
+      console.log(message)
       return true
     }
   },
@@ -41,20 +46,20 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style scoped="">
 p,
 ol {
   padding-left: 10vh;
 }
 
-ol > li > p {
+.shopping-item > p {
   padding: inherit;
 }
 
 @media only screen and (max-width: 600px) {
   p,
   ol {
-    padding-left: 6vh;
+    padding-left: 5vh;
   }
 }
 </style>

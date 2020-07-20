@@ -40,8 +40,9 @@ export default {
       const response = window.confirm('Delete item?')
       if(response) {
         const idx = this.shoppingList.findIndex(item => item.id == id)
+        const itemName = this.shoppingList[idx].name
+        console.log(`${itemName} removed!`)
         this.shoppingList.splice(idx, 1)
-        console.log('Item removed!')
       }
       return response
     }
@@ -64,5 +65,17 @@ export default {
 :root {
   font-size: 16px;
   font-family: 'Corbert Wide', Verdana, Geneva, sans-serif;
+}
+
+#app {
+  background-image: linear-gradient(to top right, lightgreen, lightyellow);
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+@media only screen and (max-width: 600px) {
+  #app {
+    padding: 0;
+  }
 }
 </style>

@@ -1,50 +1,36 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <fieldset>
-      <legend>Add Item to Shopping List</legend>
-      <label for="item-name">Item Name</label>
-      <input
-      id="item-name"
-      placeholder="Add item to shopping list..."
-      v-model.lazy="itemName"/>
-      <label for="countable">Countable?</label>
-      <div id="item-countable">
-        <input
-        id="countable"
-        type="checkbox"
-        v-model="isCountable"/>
-      </div>
-      <label for="item-count">Quantity</label>
-      <div id="item-qty">
-        <input
-        id="item-count"
-        type="number"
-        min="1"
-        v-model.number.lazy="itemCount"/>
-        <select
-        v-if="!isCountable"
-        v-model="selectedUnit">
-          <option disabled="" value="" selected="">Pick a Unit</option>
-          <option
-          v-for="option of unitOptions"
-          :key="option.value"
-          :value="option.value"
-          >
-            {{ option.text }}
-          </option>
-        </select>
-      </div>
-      <button
-      type="submit"
-      @click.prevent="onSubmit">
-        Add Item
-      </button>
-    </fieldset>
+    <label for="item-name">Item Name</label>
+    <input id="item-name"
+    placeholder="Add item to shopping list..."
+    v-model.lazy="itemName"/>
+    <label for="countable">Countable?</label>
+    <input id="countable"
+    type="checkbox"
+    v-model="isCountable"/>
+    <label for="item-count">Quantity</label>
+    <input id="item-count"
+    type="number"
+    min="1"
+    v-model.number.lazy="itemCount"/>
+    <select v-model="selectedUnit"
+    :disabled="isCountable">
+      <option disabled="" value="" selected="">
+        Pick a Unit
+      </option>
+      <option v-for="option of unitOptions"
+      :key="option.value"
+      :value="option.value">
+        {{ option.text }}
+      </option>
+    </select>
+    <button type="submit"
+    @click.prevent="onSubmit">
+      Add Item
+    </button>
     <ul v-if="formErrors.length">
-      <li
-      v-for="error of formErrors"
-      :key="error.id"
-      >
+      <li v-for="error of formErrors"
+      :key="error.id">
         {{ error.message }}
       </li>
     </ul>
@@ -116,49 +102,74 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style scoped="">
 form {
   padding: 1rem;
-  display: flex;
-  flex-flow: column;
-}
-
-form > fieldset {
   display: grid;
-  grid-template-columns: max-content 1fr;
+  grid-template-columns: 1fr repeat(2, 2fr);
+  grid-template-areas:
+    'name name-input name-input'
+    'countable countable-check .'
+    'quantity quantity-amount quantity-unit'
+    '. add-button add-button'
+    'form-errors form-errors form-errors';
 }
 
 @media only screen and (max-width: 600px) {
   form {
     padding: 1rem 0;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      'name .'
+      'name-input name-input'
+      'countable countable-check'
+      'quantity .'
+      'quantity-amount quantity-unit'
+      'add-button add-button'
+      'form-errors form-errors';
   }
-
-  form > fieldset {
-    grid-template-columns: 1fr;
-  }
 }
 
-form > fieldset > div {
-  display: flex;
-  align-content: flex-start;
+form > input,
+form > select,
+form > button {
+  font-family: 'Corbert Wide', Verdana, Geneva, sans-serif;
 }
 
-#item-qty > input,
-#item-qty > select {
-  flex-grow: 1;
+form > label[for='item-name'] {
+  grid-area: name;
 }
 
-button[type="submit"] {
-  grid-area: 5/-2/5/-1;
+#item-name {
+  grid-area: name-input;
 }
 
-@media only screen and (max-width: 600px) {
-  button[type="submit"] {
-    grid-area: 8/1/8/-1;
-  }
+form > label[for='countable'] {
+  grid-area: countable;
+}
+
+#countable {
+  grid-area: countable-check;
+}
+
+form > label[for='item-count'] {
+  grid-area: quantity;
+}
+
+#item-count {
+  grid-area: quantity-amount;
+}
+
+form > select {
+  grid-area: quantity-unit;
+}
+
+form > button[type='submit'] {
+  grid-area: add-button;
 }
 
 form > ul {
+  grid-area: form-errors;
   padding-left: 1em;
 }
 </style>
